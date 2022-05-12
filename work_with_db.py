@@ -20,7 +20,6 @@ def add_new_lost_animal(information_about_user):
     lost.stamp = information_about_user['stamp']
     lost.animal = information_about_user['animal']
     lost.collar = information_about_user['collar']
-    # lost.photo = information_about_user['photo']
     lost.is_find = False
     db_session.global_init("db/animals.sqlite")
     db_sess = db_session.create_session()
