@@ -8,7 +8,7 @@ from work_with_map import found_in_radius
 found_animals_in_radius = []
 
 
-def i_lost(update, context):
+def i_lost(update, context):  # начало диалога
     update.message.reply_text("Так, опишите своего питомца по пунктам. "
                               "Если на какой-то вопрос Вы не можете или не хотите ответить, поставьте '-'. "
                               "Вы можете прервать Ваше обращение, написав боту '/stop', но тогда оно не будет записано")
@@ -22,7 +22,7 @@ def lost_date(update, context):
     return 2
 
 
-def l_what_animal(update, context):
+def l_what_animal(update, context):  # вид животного
     day = int(str(update.message.text).split('-')[0])
     month = int(str(update.message.text).split('-')[1])
     year = int('20' + str(update.message.text).split('-')[2])
@@ -31,13 +31,13 @@ def l_what_animal(update, context):
     return 3
 
 
-def l_have_stamp(update, context):
+def l_have_stamp(update, context): # наличие клейма
     context.user_data['animal'] = update.message.text
     update.message.reply_text("Есть ли у Вашего питомца клеймо? Ответьте 'да' или 'нет'")
     return 4
 
 
-def l_have_collar(update, context):
+def l_have_collar(update, context): # наличие ошейника
     context.user_data['stamp'] = update.message.text.lower()
     if context.user_data['stamp'] == 'да':
         context.user_data['stamp'] = True
@@ -66,7 +66,7 @@ def radius(update, context):
     return 7
 
 
-def search_in_db(update, context):
+def search_in_db(update, context): # поиск по базе данных
     global found_animals_in_radius
 
     r = int(update.message.text)
