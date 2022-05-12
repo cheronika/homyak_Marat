@@ -4,10 +4,11 @@ from work_with_db import add_new_found_animal
 from telegram.ext import ConversationHandler
 
 
-def i_found(update, context):
-    update.message.reply_text("Так, опишите найденного питомца по пунктам "
-                              "Если на какой-то вопрос Вы не можете или не хотите ответить, поставьте '-'. "
-                              "Вы можете прервать Ваше обращение, написав боту '/stop', но тогда оно не будет записано")
+def i_found(update, context):  # начало диалога
+    update.message.reply_text('Так, опишите найденного питомца по пунктам '
+                              'Если на какой-то вопрос Вы не можете или не хотите ответить, поставьте \'-\'. '
+                              'Вы можете прервать Ваше обращение, написав боту \'/stop\', но тогда оно не будет '
+                              'записано')
     update.message.reply_text("В каком городе Вы находитесь?")
     return 1
 
@@ -18,7 +19,7 @@ def found_date(update, context):
     return 2
 
 
-def f_what_animal(update, context):
+def f_what_animal(update, context):  # название вида животного
     day = int(str(update.message.text).split('-')[0])
     month = int(str(update.message.text).split('-')[1])
     year = int('20' + str(update.message.text).split('-')[2])
@@ -27,13 +28,13 @@ def f_what_animal(update, context):
     return 3
 
 
-def f_have_stamp(update, context):
+def f_have_stamp(update, context):  # наличие клейма
     context.user_data['animal'] = update.message.text
     update.message.reply_text("Есть ли у этого животного клеймо? Ответьте 'да' или 'нет'")
     return 4
 
 
-def f_have_collar(update, context):
+def f_have_collar(update, context):  # наличие ошейника
     context.user_data['stamp'] = update.message.text.lower()
     if context.user_data['stamp'] == 'да':
         context.user_data['stamp'] = True
