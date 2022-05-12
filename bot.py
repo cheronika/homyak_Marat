@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 TOKEN = "5348701239:AAF5RFIr4Fng7UCcbYQRT_xLcg_O5aVflhc"
 
-information_about_user = {} 
+information_about_user = {}
 
 
 def start(update, context):
@@ -44,11 +44,11 @@ def close_keyboard(update, context):
     )
 
 
-def map_1(update, context):
+def map_1(update, context):  # рисование карты потерянных животных
     lost_map(update, context)
 
 
-def map_2(update, context):
+def map_2(update, context):  # рисование карты найденных животных
     found_map(update, context)
 
 
@@ -65,7 +65,7 @@ def main():
     dp.add_handler(CommandHandler("map_1", map_1))
     dp.add_handler(CommandHandler("map_2", map_2))
     dp.add_handler(CommandHandler("close", close_keyboard))
-    conv_handler_1 = ConversationHandler(
+    conv_handler_1 = ConversationHandler(  # обработка диалога с хозяином
         entry_points=[CommandHandler('i_lost', i_lost)],
         states={
             1: [MessageHandler(Filters.text & ~Filters.command, lost_date, pass_user_data=True)],
@@ -77,13 +77,12 @@ def main():
             7: [MessageHandler(Filters.text & ~Filters.command, search_in_db, pass_user_data=True)],
             8: [MessageHandler(Filters.text & ~Filters.command, description_of_lost_animal, pass_user_data=True)],
             9: [MessageHandler(Filters.text & ~Filters.command, owner_phone_number, pass_user_data=True)],
-            # 10: [MessageHandler(Filters.text & ~Filters.command, add_photo, pass_user_data=True)],
             11: [MessageHandler(Filters.text & ~Filters.command, goodby_owner, pass_user_data=True)]
         },
         fallbacks=[CommandHandler('stop', stop)]
     )
     dp.add_handler(conv_handler_1)
-    conv_handler_2 = ConversationHandler(
+    conv_handler_2 = ConversationHandler(  # обработка диалога с нашедшим
         entry_points=[CommandHandler('i_found', i_found)],
         states={
             1: [MessageHandler(Filters.text & ~Filters.command, found_date, pass_user_data=True)],
@@ -93,13 +92,12 @@ def main():
             5: [MessageHandler(Filters.text & ~Filters.command, found_place, pass_user_data=True)],
             6: [MessageHandler(Filters.text & ~Filters.command, description_of_found_animal, pass_user_data=True)],
             7: [MessageHandler(Filters.text & ~Filters.command, founder_phone_number, pass_user_data=True)],
-            # 8: [MessageHandler(Filters.text & ~Filters.command, f_add_photo, pass_user_data=True)],
             9: [MessageHandler(Filters.text & ~Filters.command, goodby_founder, pass_user_data=True)]
         },
         fallbacks=[CommandHandler('stop', stop)]
     )
     dp.add_handler(conv_handler_2)
-    conv_handler_3 = ConversationHandler(
+    conv_handler_3 = ConversationHandler(  # обработка диалога с желающим остановить поиски
         entry_points=[CommandHandler('stop_searching', stop_searching)],
         states={
             1: [MessageHandler(Filters.text & ~Filters.command, cancel_searching)]
