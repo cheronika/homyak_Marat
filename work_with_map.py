@@ -5,7 +5,7 @@ from work_with_db import db_session
 from distance import lonlat_distance
 
 
-def red_square_coords():
+def red_square_coords():  # координаты Москвы
     coords = requests.get(
         f"http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b&geocode=Москва&format=json").json()[
         "response"]["GeoObjectCollection"]["featureMember"][
@@ -15,7 +15,7 @@ def red_square_coords():
     return longitude, lattitude
 
 
-def coords_from_address(address):
+def coords_from_address(address):  # преобразование полученного адреса в координаты
     geocoder_api_server = "http://geocode-maps.yandex.ru/1.x/"
     geocoder_params = {
         "format": "json",
@@ -28,7 +28,7 @@ def coords_from_address(address):
     return coords
 
 
-def lost_map(update, context):
+def lost_map(update, context):  # карта потерянных животных
     db_session.global_init("db/animals.sqlite")
     db_sess = db_session.create_session()
     pts = []
@@ -46,7 +46,7 @@ def lost_map(update, context):
     )
 
 
-def found_map(update, context):
+def found_map(update, context):  # карта найденных животных
     db_session.global_init("db/animals.sqlite")
     db_sess = db_session.create_session()
     pts = []
@@ -69,6 +69,7 @@ def found_map(update, context):
 
 
 def found_in_radius(date, address, kind, stamp, collar, radius):
+    # находит по бд подходящих животных, найденных на указанном пользователем расстоянии от места потери
     db_session.global_init("db/animals.sqlite")
     db_sess = db_session.create_session()
     coords = coords_from_address(address)
